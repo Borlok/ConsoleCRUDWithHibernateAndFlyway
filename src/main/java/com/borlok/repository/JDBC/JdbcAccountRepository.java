@@ -62,29 +62,30 @@ public class JdbcAccountRepository implements AccountRepository {
     @Override
     public Account getById(Integer id) {
         try (Connection connection = Utils.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    sqlCommandsResource.getString("getAccountById"));
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return getReturnedAccount(resultSet);
+            return getReturnedAccount(getAccountResultSetById(connection, id));
         } catch (SQLException e) {
             System.err.println("Что-то пошло не так в getById()\n" + e);
         }
         return ifReturnNull();
     }
 
+    private ResultSet getAccountResultSetById(Connection connection, Integer id) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                sqlCommandsResource.getString("getAccountById"));
+        preparedStatement.setInt(1, id);
+        return preparedStatement.executeQuery();
+    }
+
     @Override
     public Account update(Account account, Integer id) {
         try (Connection connection = Utils.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(
-                    sqlCommandsResource.getString("updateAccount")
-            );
+                    sqlCommandsResource.getString("updateAccount"));
             preparedStatement.setString(1, account.getName());
             preparedStatement.setInt(2, AccountStatus.valueOf(account.getStatus().name()).ordinal() + 1);
             preparedStatement.setInt(3, id);
             preparedStatement.execute();
-            preparedStatement.close();
-            return getById(id);
+            return getReturnedAccount(getAccountResultSetById(connection, id));
         } catch (SQLException e) {
             System.err.println("Что-то пошло не так в update()\n" + e);
         }

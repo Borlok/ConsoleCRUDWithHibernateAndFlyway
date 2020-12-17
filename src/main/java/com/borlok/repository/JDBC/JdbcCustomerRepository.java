@@ -28,7 +28,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 createAccountOfCustomerToDB(connection, customer);
                 connection.commit();
                 statement.close();
-                return getById(customer.getId());
+                return convertResultSetToCustomer(getCustomerResultSetById(connection, customer.getId()));
             } catch (Exception e) {
                 connection.rollback();
                 System.err.println("Что-то пошло не так в методе create() CustomerRepository: Выполнен откат\n" + e);
@@ -79,16 +79,18 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Customer getById(Integer id) {
         try (Connection connection = Utils.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    sqlCommandsResource.getString("getCustomerById"));
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            return convertResultSetToCustomer(resultSet);
+            return convertResultSetToCustomer(getCustomerResultSetById(connection, id));
         } catch (SQLException e) {
             System.err.println("Что-то пошло не так в методе getById() CustomerRepository\n" + e);
         }
         return ifReturnNull();
+    }
+
+    private ResultSet getCustomerResultSetById(Connection connection, Integer id) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                sqlCommandsResource.getString("getCustomerById"));
+        preparedStatement.setInt(1, id);
+        return preparedStatement.executeQuery();
     }
 
     private Customer ifReturnNull() {
@@ -127,7 +129,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 updateAccountOfCustomer(connection, customer);
                 deleteOldAndAddNewSpecialtiesToCustomer(customer, connection);
                 connection.commit();
-                return getById(id);
+                return convertResultSetToCustomer(getCustomerResultSetById(connection, id));
             } catch (Exception e) {
                 connection.rollback();
                 System.err.println("Что-то пошло не так в методе update() CustomerRepository: Выполнен откат\n" + e);

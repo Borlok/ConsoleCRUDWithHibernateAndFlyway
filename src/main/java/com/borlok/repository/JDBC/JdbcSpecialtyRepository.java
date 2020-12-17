@@ -46,16 +46,18 @@ public class JdbcSpecialtyRepository implements SpecialtyRepository {
     @Override
     public Specialty getById(Integer id) {
         try (Connection connection = Utils.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    sqlCommandsResource.getString("getSpecialtyById"));
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            return convertResultSetToSpecialty(resultSet);
+            return convertResultSetToSpecialty(getSpecialtyResultSetById(connection, id));
         } catch (SQLException e) {
             System.err.println("что-то пошло не так в методе getById() SpecialtyRepository\n" + e);
         }
         return ifReturnNull();
+    }
+
+    private ResultSet getSpecialtyResultSetById(Connection connection, Integer id) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                sqlCommandsResource.getString("getSpecialtyById"));
+        preparedStatement.setInt(1, id);
+        return preparedStatement.executeQuery();
     }
 
     private ResultSet getResultSetOfLastSpecialty(Connection connection) throws SQLException {
@@ -71,9 +73,8 @@ public class JdbcSpecialtyRepository implements SpecialtyRepository {
             preparedStatement.setString(1,specialty.getName());
             preparedStatement.setInt(2,id);
             preparedStatement.execute();
-            preparedStatement.close();
 
-            return getById(id);
+            return convertResultSetToSpecialty(getSpecialtyResultSetById(connection, id));
         } catch (SQLException e) {
             System.err.println("что-то пошло не так в методе update() SpecialtyRepository\n" + e);
         }
