@@ -20,7 +20,8 @@ public class JdbcSpecialtyRepository implements SpecialtyRepository {
 
     @Override
     public Specialty create(Specialty specialty) {
-        try (Connection connection = Utils.getConnection()) {
+        try {
+            Connection connection = Utils.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
                     sqlCommandsResource.getString("createSpecialty"));
             preparedStatement.setString(1,specialty.getName());
@@ -45,7 +46,8 @@ public class JdbcSpecialtyRepository implements SpecialtyRepository {
 
     @Override
     public Specialty getById(Integer id) {
-        try (Connection connection = Utils.getConnection()) {
+        try {
+            Connection connection = Utils.getConnection();
             return convertResultSetToSpecialty(getSpecialtyResultSetById(connection, id));
         } catch (SQLException e) {
             System.err.println("что-то пошло не так в методе getById() SpecialtyRepository\n" + e);
@@ -67,7 +69,8 @@ public class JdbcSpecialtyRepository implements SpecialtyRepository {
 
     @Override
     public Specialty update(Specialty specialty, Integer id) {
-        try (Connection connection = Utils.getConnection()) {
+        try {
+            Connection connection = Utils.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
                     sqlCommandsResource.getString("updateSpecialty"));
             preparedStatement.setString(1,specialty.getName());
@@ -87,7 +90,8 @@ public class JdbcSpecialtyRepository implements SpecialtyRepository {
 
     @Override
     public List<Specialty> getAll() {
-        try (Connection connection = Utils.getConnection()) {
+        try {
+            Connection connection = Utils.getConnection();
             ResultSet resultSet = connection.createStatement()
                     .executeQuery(sqlCommandsResource.getString("getAllSpecialties"));
             List<Specialty> specialties = new ArrayList<>();
@@ -106,7 +110,8 @@ public class JdbcSpecialtyRepository implements SpecialtyRepository {
 
     @Override
     public void delete(Integer id) {
-        try (Connection connection = Utils.getConnection()) {
+        try {
+            Connection connection = Utils.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
                     sqlCommandsResource.getString("deleteSpecialty"));
             preparedStatement.setInt(1, id);

@@ -18,7 +18,8 @@ public class JdbcAccountRepository implements AccountRepository {
 
     @Override
     public Account create(Account account) {
-        try (Connection connection = Utils.getConnection()) {
+        try  {
+            Connection connection = Utils.getConnection();
             try {
                 connection.setAutoCommit(false);
                 int customerId = createAndGetCustomerId(connection);
@@ -61,7 +62,8 @@ public class JdbcAccountRepository implements AccountRepository {
 
     @Override
     public Account getById(Integer id) {
-        try (Connection connection = Utils.getConnection()) {
+        try  {
+            Connection connection = Utils.getConnection();
             return getReturnedAccount(getAccountResultSetById(connection, id));
         } catch (SQLException e) {
             System.err.println("Что-то пошло не так в getById()\n" + e);
@@ -78,7 +80,8 @@ public class JdbcAccountRepository implements AccountRepository {
 
     @Override
     public Account update(Account account, Integer id) {
-        try (Connection connection = Utils.getConnection()) {
+        try {
+            Connection connection = Utils.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
                     sqlCommandsResource.getString("updateAccount"));
             preparedStatement.setString(1, account.getName());
@@ -106,11 +109,11 @@ public class JdbcAccountRepository implements AccountRepository {
 
     @Override
     public List<Account> getAll() {
-        try (Connection connection = Utils.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(
-                     sqlCommandsResource.getString("getAllAccounts"))) {
-
+        try {
+            Connection connection = Utils.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(
+                    sqlCommandsResource.getString("getAllAccounts"));
             List<Account> accounts = new ArrayList<>();
 
             while (resultSet.next()) {
@@ -120,7 +123,8 @@ public class JdbcAccountRepository implements AccountRepository {
                 account.setStatus(AccountStatus.valueOf(resultSet.getString(3)));
                 accounts.add(account);
             }
-
+            resultSet.close();
+            statement.close();
             return accounts;
         } catch (SQLException e) {
             System.err.println("Проблема в методе getAll() класса AccountRepository\n" + e);
@@ -135,7 +139,8 @@ public class JdbcAccountRepository implements AccountRepository {
 
     @Override
     public void delete(Integer id) {
-        try (Connection connection = Utils.getConnection()) {
+        try {
+            Connection connection = Utils.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
                     sqlCommandsResource.getString("getAccountById"));
             preparedStatement.setInt(1, id);

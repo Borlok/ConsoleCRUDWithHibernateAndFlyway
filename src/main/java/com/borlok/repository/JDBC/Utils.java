@@ -4,10 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.concurrent.ConcurrentNavigableMap;
 
 public class Utils {
     private static String DATABASE_URL;
-
+    private static Connection connection;
     private static String USER;
     private static String PASSWORD;
 
@@ -28,8 +29,12 @@ public class Utils {
     }
 
     public static Connection getConnection () throws SQLException {
-        prepareToConnectToDbAndRegisterDriver();
-        return DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
+        if (connection == null) {
+            System.out.println("Создано новое подключение");
+            prepareToConnectToDbAndRegisterDriver();
+            connection = DriverManager.getConnection(DATABASE_URL, USER, PASSWORD);
+        }
+        return connection;
     }
 
     public static ResourceBundle getResourceForSqlCommands() {

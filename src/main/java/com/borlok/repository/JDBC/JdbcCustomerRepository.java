@@ -18,7 +18,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer create(Customer customer) {
-        try (Connection connection = Utils.getConnection()) {
+        try {
+            Connection connection = Utils.getConnection();
             try {
                 connection.setAutoCommit(false);
                 Statement statement = connection.createStatement();
@@ -78,7 +79,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer getById(Integer id) {
-        try (Connection connection = Utils.getConnection()) {
+        try {
+            Connection connection = Utils.getConnection();
             return convertResultSetToCustomer(getCustomerResultSetById(connection, id));
         } catch (SQLException e) {
             System.err.println("Что-то пошло не так в методе getById() CustomerRepository\n" + e);
@@ -121,7 +123,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer, Integer id) {
-        try (Connection connection = Utils.getConnection()) {
+        try {
+            Connection connection = Utils.getConnection();
             try {
                 connection.setAutoCommit(false);
                 customer.setId(id);
@@ -185,7 +188,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> getAll() {
-        try (Connection connection = Utils.getConnection()) {
+        try {
+            Connection connection = Utils.getConnection();
             List<Customer> customers = new ArrayList<>();
             ResultSet resultSet = connection.createStatement().executeQuery(
                     sqlCommandsResource.getString("getAllCustomersId"));
@@ -202,7 +206,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void delete(Integer id) {
-        try (Connection connection = Utils.getConnection()) {
+        try {
+            Connection connection = Utils.getConnection();
             try {
                 connection.setAutoCommit(false);
                 PreparedStatement preparedStatement = connection.prepareStatement(
