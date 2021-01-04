@@ -35,3 +35,15 @@ foreign key (SpecialtyId) references SpecialtyList (SpecialtyId) on delete casca
 
 --changeset borlok:2
 insert into AccountStatus (Status) value ('ACTIVE'),('BANNED'),('DELETED');
+--changeset borlok:4
+alter table Accounts drop foreign key Accounts_ibfk_2;
+alter table Accounts modify AccountStatus varchar (50);
+drop table AccountStatus;
+drop table Specialties;
+
+create table if not exists Specialties (
+CustomerId int,
+SpecialtyId int,
+primary key (CustomerId, SpecialtyId),
+foreign key (CustomerId) references Customers(CustomerId) on delete cascade,
+foreign key (SpecialtyId) references SpecialtyList (SpecialtyId) on delete cascade);

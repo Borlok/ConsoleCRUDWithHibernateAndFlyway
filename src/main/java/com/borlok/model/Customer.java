@@ -1,15 +1,26 @@
 package com.borlok.model;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
+@Entity
+@Table(name = "Customers")
 public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "CustomerId")
     private int id;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "Specialties",
+    joinColumns = {@JoinColumn(name = "CustomerId")},
+    inverseJoinColumns = {@JoinColumn(name = "SpecialtyId")})
     private Set<Specialty> specialties;
+
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private Account account;
 
     public Customer() {
-        id = 0;
         specialties = new HashSet<>();
         account = new Account();
     }
@@ -44,8 +55,13 @@ public class Customer {
         this.account = account;
     }
 
+
     @Override
     public String toString() {
-        return account.getName() + " [" + specialties + "]";
+        return "Customer{" +
+                "id=" + id +
+                ", specialties=" + specialties +
+                ", account=" + account +
+                '}';
     }
 }

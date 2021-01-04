@@ -1,9 +1,10 @@
 Консольное CRUD приложение с использованием
-JDBC, Maven и Liquibase
+Hibernate, Maven и Liquibase
 
 Задача:
 Необходимо реализовать консольное CRUD 
 приложение, которое взаимодействует с БД
+при помощи Hibernate
 и позволяет выполнять все CRUD операции 
 над сущностями:
 
@@ -24,13 +25,15 @@ Account -> AccountStatus
 
 4.Для импорта библиотек использовать Maven
 
-При первом запуске программы, в mysql создается  ДБ practice
-и таблицы в ней:
+В MySql должны присутствовать:
+1. Пользователь student с паролем 123.
+2. ДБ practice
+
+При компиляции программы, в mysql создаются таблицы:
 
 Customers
-AccountStatus
 SpecialtyList
 Accounts
 Specialties 
 
-Технологии: Java, MySQL, JDBC, Maven, Liquibase, JUnit, Mockito
+Технологии: Java, MySQL, JDBC, Maven, Liquibase, JUnit, Mockito, Hibernate

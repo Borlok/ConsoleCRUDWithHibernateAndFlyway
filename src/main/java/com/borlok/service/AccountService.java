@@ -1,9 +1,8 @@
 package com.borlok.service;
 
 import com.borlok.model.Account;
-import com.borlok.repository.AccountRepository;
 import com.borlok.repository.CompositeRepository;
-import com.borlok.repository.JDBC.JdbcAccountRepository;
+import com.borlok.repository.hibernate.JpaAccountRepository;
 
 import java.util.List;
 
@@ -19,23 +18,22 @@ public class AccountService implements Service<Account> {
 
     @Override
     public Account create(Account account) {
-//        return null;
-        return ((AccountRepository) repository.getRepository(new JdbcAccountRepository())).create(account);
+        return ((JpaAccountRepository) repository.getRepository(new JpaAccountRepository())).create(account);
     }
 
     @Override
     public List<Account> getAll() {
-        return ((AccountRepository) repository.getRepository(new JdbcAccountRepository())).getAll();
+        return ((JpaAccountRepository) repository.getRepository(new JpaAccountRepository())).getAll();
     }
 
         @Override
     public Account update(Account account, Integer id) {
-        return ((AccountRepository) repository.getRepository(new JdbcAccountRepository())).update(account, id);
+        return ((JpaAccountRepository) repository.getRepository(new JpaAccountRepository())).update(account, id);
     }
 
     @Override
     public void delete(Integer id) {
-        repository.getRepository(new JdbcAccountRepository()).delete(id);
+        repository.getRepository(new JpaAccountRepository()).delete(id);
     }
 
     @Override

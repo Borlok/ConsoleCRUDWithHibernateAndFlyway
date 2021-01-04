@@ -1,6 +1,5 @@
 package com.borlok.view;
 
-import com.borlok.controller.AccountController;
 import com.borlok.controller.CompositeController;
 import com.borlok.controller.CustomerController;
 import com.borlok.controller.SpecialtyController;
@@ -11,7 +10,6 @@ import com.borlok.model.Account;
 import com.borlok.model.AccountStatus;
 import com.borlok.model.Customer;
 import com.borlok.model.Specialty;
-import com.borlok.repository.JDBC.JdbcCustomerRepository;
 
 import java.util.*;
 
@@ -125,7 +123,8 @@ public class CustomerView implements View {
     }
 
     private void viewAllCustomers() {
-        getAllCustomersAsList().forEach(x ->
+        List<Customer> customers = getAllCustomersAsList();
+        customers.forEach(x ->
                 System.out.println(x.getId()
                         + ": | " + x.getAccount().getName()
                         + " | " + x.getAccount().getStatus()

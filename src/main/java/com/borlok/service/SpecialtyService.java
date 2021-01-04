@@ -2,7 +2,7 @@ package com.borlok.service;
 
 import com.borlok.model.Specialty;
 import com.borlok.repository.CompositeRepository;
-import com.borlok.repository.JDBC.JdbcSpecialtyRepository;
+import com.borlok.repository.hibernate.JpaSpecialtyRepository;
 
 import java.util.List;
 
@@ -18,26 +18,26 @@ public class SpecialtyService implements Service<Specialty> {
 
     @Override
     public Specialty create(Specialty specialty) {
-        return ((JdbcSpecialtyRepository) repository
-                .getRepository(new JdbcSpecialtyRepository())).create(specialty);
+        return ((JpaSpecialtyRepository) repository
+                .getRepository(new JpaSpecialtyRepository())).create(specialty);
     }
 
     @Override
     public List<Specialty> getAll() {
-        return ((JdbcSpecialtyRepository) repository
-                .getRepository(new JdbcSpecialtyRepository())).getAll();
+        return ((JpaSpecialtyRepository) repository
+                .getRepository(new JpaSpecialtyRepository())).getAll();
     }
 
     @Override
     public Specialty update(Specialty specialty, Integer id) {
-        return ((JdbcSpecialtyRepository) repository
-                .getRepository(new JdbcSpecialtyRepository())).update(specialty, id);
+        return ((JpaSpecialtyRepository) repository
+                .getRepository(new JpaSpecialtyRepository())).update(specialty, id);
     }
 
     @Override
     public void delete(Integer id) {
         repository
-                .getRepository(new JdbcSpecialtyRepository()).delete(id);
+                .getRepository(new JpaSpecialtyRepository()).delete(id);
     }
 
     @Override

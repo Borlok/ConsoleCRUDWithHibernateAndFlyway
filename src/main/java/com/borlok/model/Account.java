@@ -1,12 +1,25 @@
 package com.borlok.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "Accounts")
 public class Account {
-    private String name;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "Id")
     private int id;
+    @Column(name = "Name")
+    private String name;
+    @Column(name = "AccountStatus")
+    @Enumerated(EnumType.STRING)
     private AccountStatus status;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "CustomerId")
+    private Customer customer;
 
     public Account() {
-        id = 0;
         name = "";
         status = AccountStatus.DELETED;
     }
@@ -41,8 +54,20 @@ public class Account {
         this.id = id;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     @Override
     public String toString() {
-        return name;
+        return "Account{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

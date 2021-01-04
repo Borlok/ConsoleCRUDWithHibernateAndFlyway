@@ -2,7 +2,7 @@ package com.borlok.service;
 
 import com.borlok.model.Customer;
 import com.borlok.repository.CompositeRepository;
-import com.borlok.repository.JDBC.JdbcCustomerRepository;
+import com.borlok.repository.hibernate.JpaCustomerRepository;
 
 import java.util.List;
 
@@ -18,26 +18,26 @@ public class CustomerService implements Service<Customer> {
 
     @Override
     public Customer create(Customer customer) {
-        return ((JdbcCustomerRepository) repository
-                .getRepository(new JdbcCustomerRepository())).create(customer);
+        return ((JpaCustomerRepository) repository
+                .getRepository(new JpaCustomerRepository())).create(customer);
     }
 
     @Override
     public List<Customer> getAll() {
-        return ((JdbcCustomerRepository) repository
-                .getRepository(new JdbcCustomerRepository())).getAll();
+        return ((JpaCustomerRepository) repository
+                .getRepository(new JpaCustomerRepository())).getAll();
     }
 
     @Override
     public Customer update(Customer customer, Integer id) {
-        return ((JdbcCustomerRepository) repository
-                .getRepository(new JdbcCustomerRepository())).update(customer, id);
+        return ((JpaCustomerRepository) repository
+                .getRepository(new JpaCustomerRepository())).update(customer, id);
     }
 
     @Override
     public void delete(Integer id) {
         repository
-                .getRepository(new JdbcCustomerRepository()).delete(id);
+                .getRepository(new JpaCustomerRepository()).delete(id);
     }
 
     @Override
