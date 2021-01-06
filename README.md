@@ -31,9 +31,9 @@ Account -> AccountStatus
 
 При компиляции программы, в mysql создаются таблицы:
 
-Customers
-SpecialtyList
-Accounts
-Specialties 
+customers
+specialty_list
+accounts
+specialties 
 
 Технологии: Java, MySQL, JDBC, Maven, Liquibase, JUnit, Mockito, Hibernate
