@@ -1,7 +1,6 @@
 package com.borlok.view;
 
 import com.borlok.controller.AccountController;
-import com.borlok.controller.CompositeController;
 import com.borlok.controller.builder.AccountBuilder;
 import com.borlok.controller.builder.AccountBuilderImpl;
 import com.borlok.model.Account;
@@ -10,16 +9,11 @@ import com.borlok.model.AccountStatus;
 import java.util.List;
 import java.util.Scanner;
 
-public class AccountView implements View{
-    private CompositeController compositeController;
+public class AccountView {
+    private AccountController accountController = new AccountController();
     private AccountBuilder accountBuilder = new AccountBuilderImpl();
     private Scanner sc;
 
-    public AccountView(CompositeController compositeController) {
-        this.compositeController = compositeController;
-    }
-
-    @Override
     public void main() {
         try {
             sc = new Scanner(System.in);
@@ -31,21 +25,20 @@ public class AccountView implements View{
                     "4: Удалить аккаунт\n" +
                     "5: Назад");
             int choice = sc.nextInt();
-            if (choice != 5)
                 switch (choice) {
                     case 1: create();
-                    break;
+                        break;
                     case 2 : read();
-                    break;
+                        break;
                     case 3 : update();
-                    break;
+                        break;
                     case 4 : delete();
-                    break;
+                        break;
+                    case 5 : new MainView().main();
                     default : {
                         System.out.print("\nТакого действия нет");
                         main();
                     }
-                    break;
                 }
         } catch (Exception e) {
             System.out.println("Введены неверные символы " + e);
@@ -53,7 +46,6 @@ public class AccountView implements View{
         }
     }
 
-    @Override
     public void create() {
         createAllAndSave();
         main();
@@ -61,7 +53,7 @@ public class AccountView implements View{
 
     private void createAllAndSave() {
         Account account = createAccount();
-        ((AccountController) compositeController.getController(new AccountController())).create(account);
+        accountController.create(account);
     }
 
     private Account createAccount() {
@@ -81,7 +73,6 @@ public class AccountView implements View{
             System.out.println((i + 1) + ": " + AccountStatus.values()[i]);
     }
 
-    @Override
     public void read() {
         viewAllAccounts();
         System.out.println("Введите любой символ для продолжения...");
@@ -95,34 +86,24 @@ public class AccountView implements View{
     }
 
     private List<Account> getAllAccountsAsList() {
-        return ((AccountController) compositeController.getController(new AccountController()))
-                .getAll();
+        return accountController.getAll();
     }
 
-    @Override
     public void update() {
         System.out.println("Выберите аккаунт для замены");
         viewAllAccounts();
         int id = sc.nextInt();
         Account account = createAccount();
         account.setId(id);
-        ((AccountController) compositeController.getController(new AccountController()))
-                .update(account, id);
+        accountController.update(account, id);
         main();
     }
 
-    @Override
     public void delete() {
         System.out.println("Выберите аккаунт для удаления: ");
         viewAllAccounts();
         int id = sc.nextInt();
-        compositeController.getController(new AccountController())
-                .delete(id);
+        accountController.delete(id);
         main();
-    }
-
-    @Override
-    public String toString() {
-        return "Аккаунт";
     }
 }

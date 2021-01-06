@@ -4,24 +4,15 @@ import com.borlok.model.Account;
 import com.borlok.model.Customer;
 import com.borlok.repository.AccountRepository;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.List;
 
 public class JpaAccountRepository implements AccountRepository {
-    private SessionFactory sessionFactory;
-
-    public JpaAccountRepository() {
-    }
-
-    public JpaAccountRepository(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public Account create(Account account) {
-        Session session = sessionFactory.openSession();
+        Session session = JpaUtil.getSession();
         Transaction transaction = session.beginTransaction();
 
         Customer customer = new Customer();
@@ -39,7 +30,7 @@ public class JpaAccountRepository implements AccountRepository {
 
     @Override
     public Account update(Account account, Integer id) {
-        Session session = sessionFactory.openSession();
+        Session session = JpaUtil.getSession();
         Transaction transaction = session.beginTransaction();
 
         Account account1 = (Account) session.get(Account.class, id);
@@ -56,7 +47,7 @@ public class JpaAccountRepository implements AccountRepository {
 
     @Override
     public List<Account> getAll() {
-        Session session = sessionFactory.openSession();
+        Session session = JpaUtil.getSession();
         List<Account> accounts = session.createQuery("from Account").list();
         session.close();
         return accounts;
@@ -64,17 +55,12 @@ public class JpaAccountRepository implements AccountRepository {
 
     @Override
     public void delete(Integer id) {
-        Session session = sessionFactory.openSession();
+        Session session = JpaUtil.getSession();
         Transaction transaction = session.beginTransaction();
 
         session.delete(session.get(Account.class, id));
 
         transaction.commit();
         session.close();
-    }
-
-    @Override
-    public String toString() {
-        return "JpaAccountRepository{}";
     }
 }

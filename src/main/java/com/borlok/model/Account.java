@@ -3,20 +3,18 @@ package com.borlok.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Accounts")
+@Table(name = "accounts")
 public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "Id")
     private int id;
-    @Column(name = "Name")
     private String name;
-    @Column(name = "AccountStatus")
+    @Column(name = "account_status")
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "CustomerId")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     public Account() {

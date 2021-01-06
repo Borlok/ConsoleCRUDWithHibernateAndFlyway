@@ -1,6 +1,5 @@
 package com.borlok.view;
 
-import com.borlok.controller.CompositeController;
 import com.borlok.controller.CustomerController;
 import com.borlok.controller.SpecialtyController;
 import com.borlok.controller.builder.AccountBuilder;
@@ -13,16 +12,13 @@ import com.borlok.model.Specialty;
 
 import java.util.*;
 
-public class CustomerView implements View {
-    private CompositeController compositeController;
+public class CustomerView {
+    private CustomerController customerController = new CustomerController();
+    private SpecialtyController specialtyController = new SpecialtyController();
     private CustomerBuilderImpl customerBuilder = new CustomerBuilderImpl();
     private Scanner sc;
 
-    public CustomerView(CompositeController compositeController) {
-        this.compositeController = compositeController;
-    }
 
-    @Override
     public void main() {
         try {
             sc = new Scanner(System.in);
@@ -35,7 +31,6 @@ public class CustomerView implements View {
                             "4: Удалить покупателя\n" +
                             "5: Назад");
             int choice = sc.nextInt();
-            if (choice != 5)
                 switch (choice) {
                     case 1 : create();
                         break;
@@ -45,11 +40,11 @@ public class CustomerView implements View {
                         break;
                     case 4 : delete();
                         break;
+                    case 5 : new MainView().main();
                     default : {
                         System.out.print("\nТакого действия нет");
                         main();
                     }
-                    break;
                 }
         } catch (Exception e) {
             System.out.println("Введены неверные символы: " + e);
@@ -57,10 +52,9 @@ public class CustomerView implements View {
         }
     }
 
-    @Override
     public void create() {
         Customer customer = createCustomer();
-        ((CustomerController) compositeController.getController(new CustomerController())).create(customer);
+        customerController.create(customer);
         main();
     }
 
@@ -93,9 +87,7 @@ public class CustomerView implements View {
 
     private Set<Specialty> getSpecialties() {
         Set<Specialty> specialties = new HashSet<>();
-        List<Specialty> specialtyList = ((SpecialtyController) compositeController
-                .getController(new SpecialtyController()))
-                .getAll();
+        List<Specialty> specialtyList = specialtyController.getAll();
 
         specialtyList.forEach(x -> System.out.println((specialtyList.indexOf(x) + 1) + ": " + x.getName()));
 
@@ -109,7 +101,6 @@ public class CustomerView implements View {
         return specialties;
     }
 
-    @Override
     public void read() {
         viewAllCustomers();
         System.out.println("Введите любой символ для продолжения...");
@@ -118,8 +109,7 @@ public class CustomerView implements View {
     }
 
     private List<Customer> getAllCustomersAsList() {
-        return ((CustomerController) compositeController.getController(new CustomerController()))
-                .getAll();
+        return customerController.getAll();
     }
 
     private void viewAllCustomers() {
@@ -131,7 +121,6 @@ public class CustomerView implements View {
                         + " | " + Arrays.toString(x.getSpecialties().toArray()) + "|"));
     }
 
-    @Override
     public void update() {
         System.out.println("Выберите покупателя для замены");
         viewAllCustomers();
@@ -139,23 +128,15 @@ public class CustomerView implements View {
 
         Customer customer = createCustomer();
         customer.setId(id);
-        ((CustomerController) compositeController
-                .getController(new CustomerController())).update(customer, id);
+        customerController.update(customer, id);
         main();
     }
 
-    @Override
     public void delete() {
         System.out.println("Выберите покупателя для удаления: ");
         viewAllCustomers();
         int id = sc.nextInt();
-        compositeController
-                .getController(new CustomerController()).delete(id);
+        customerController.delete(id);
         main();
-    }
-
-    @Override
-    public String toString() {
-        return "Покупатели";
     }
 }

@@ -4,24 +4,15 @@ import com.borlok.model.Account;
 import com.borlok.model.Customer;
 import com.borlok.repository.CustomerRepository;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.List;
 
 public class JpaCustomerRepository implements CustomerRepository {
-    private SessionFactory sessionFactory;
-
-    public JpaCustomerRepository() {
-    }
-
-    public JpaCustomerRepository(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public Customer create(Customer customer) {
-        Session session = sessionFactory.openSession();
+        Session session = JpaUtil.getSession();
         Transaction transaction = session.beginTransaction();
 
         customer.getAccount().setCustomer(customer);
@@ -34,7 +25,7 @@ public class JpaCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer, Integer id) {
-        Session session = sessionFactory.openSession();
+        Session session = JpaUtil.getSession();
         Transaction transaction = session.beginTransaction();
 
         Customer customer1 = (Customer) session.get(Customer.class, id);
@@ -56,9 +47,9 @@ public class JpaCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> getAll() {
-        Session session = sessionFactory.openSession();
-
+        Session session = JpaUtil.getSession();
         List<Customer> customers = session.createQuery("from Customer").list();
+        customers.forEach(x -> x.getSpecialties().size());
 
         session.close();
         return customers;
@@ -66,17 +57,12 @@ public class JpaCustomerRepository implements CustomerRepository {
 
     @Override
     public void delete(Integer id) {
-        Session session = sessionFactory.openSession();
+        Session session = JpaUtil.getSession();
         Transaction transaction = session.beginTransaction();
 
         session.delete(session.get(Customer.class, id));
 
         transaction.commit();
         session.close();
-    }
-
-    @Override
-    public String toString() {
-        return "JpaCustomerRepository{}";
     }
 }

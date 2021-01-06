@@ -1,47 +1,27 @@
 package com.borlok.service;
 
 import com.borlok.model.Customer;
-import com.borlok.repository.CompositeRepository;
+import com.borlok.repository.CustomerRepository;
 import com.borlok.repository.hibernate.JpaCustomerRepository;
 
 import java.util.List;
 
-public class CustomerService implements Service<Customer> {
-    private CompositeRepository repository;
+public class CustomerService {
+    private CustomerRepository repository = new JpaCustomerRepository();
 
-    public CustomerService() {
-    }
-
-    public CustomerService(CompositeRepository repository) {
-        this.repository = repository;
-    }
-
-    @Override
     public Customer create(Customer customer) {
-        return ((JpaCustomerRepository) repository
-                .getRepository(new JpaCustomerRepository())).create(customer);
+        return repository.create(customer);
     }
 
-    @Override
     public List<Customer> getAll() {
-        return ((JpaCustomerRepository) repository
-                .getRepository(new JpaCustomerRepository())).getAll();
+        return repository.getAll();
     }
 
-    @Override
     public Customer update(Customer customer, Integer id) {
-        return ((JpaCustomerRepository) repository
-                .getRepository(new JpaCustomerRepository())).update(customer, id);
+        return repository.update(customer, id);
     }
 
-    @Override
     public void delete(Integer id) {
-        repository
-                .getRepository(new JpaCustomerRepository()).delete(id);
-    }
-
-    @Override
-    public String toString() {
-        return "CustomerService";
+        repository.delete(id);
     }
 }

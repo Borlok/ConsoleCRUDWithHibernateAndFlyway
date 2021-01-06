@@ -4,18 +4,18 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "SpecialtyList")
+@Table(name = "specialty_list")
 public class Specialty {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "SpecialtyId")
+    @Column(name = "specialty_id")
     private int id;
-    @Column(name = "Specialty")
+    @Column(name = "specialty")
     private String name;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "Specialties",
-            joinColumns = {@JoinColumn(name = "SpecialtyId")},
-            inverseJoinColumns = {@JoinColumn(name = "CustomerId")})
+    @ManyToMany
+    @JoinTable(name = "specialties",
+            joinColumns = {@JoinColumn(name = "specialty_id")},
+            inverseJoinColumns = {@JoinColumn(name = "customer_id")})
     private List<Customer> customers;
 
     public Specialty() {

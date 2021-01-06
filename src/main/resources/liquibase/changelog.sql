@@ -47,3 +47,24 @@ SpecialtyId int,
 primary key (CustomerId, SpecialtyId),
 foreign key (CustomerId) references Customers(CustomerId) on delete cascade,
 foreign key (SpecialtyId) references SpecialtyList (SpecialtyId) on delete cascade);
+
+rename table Customers to customers;
+rename table Accounts to accounts;
+rename table Specialties to specialties;
+rename table SpecialtyList to specialty_list;
+
+alter table customers rename column CustomerId to customer_id;
+
+alter table accounts rename column Id to id;
+alter table accounts rename column CustomerId to customer_id;
+alter table accounts rename column Name to name;
+alter table accounts rename column AccountStatus to account_status;
+
+alter table specialties rename column CustomerId to customer_id;
+alter table specialties rename column SpecialtyId to specialty_id;
+
+alter table specialty_list rename column SpecialtyId to specialty_id;
+alter table specialty_list rename column Specialty to specialty;
+
+
+

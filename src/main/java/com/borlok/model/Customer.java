@@ -1,20 +1,21 @@
 package com.borlok.model;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 @Entity
-@Table(name = "Customers")
+@Table(name = "customers")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "CustomerId")
+    @Column(name = "customer_id")
     private int id;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "Specialties",
-    joinColumns = {@JoinColumn(name = "CustomerId")},
-    inverseJoinColumns = {@JoinColumn(name = "SpecialtyId")})
+    @ManyToMany
+    @JoinTable(name = "specialties",
+    joinColumns = {@JoinColumn(name = "customer_id")},
+    inverseJoinColumns = {@JoinColumn(name = "specialty_id")})
     private Set<Specialty> specialties;
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
