@@ -57,9 +57,15 @@ public class AccountServiceTests {
     }
 
     @Test
+    public void getByIdTest () {
+        doReturn(returnedAccount).when(accountService).getById(15);
+        assertEquals(returnedAccount, accountService.getById(15));
+    }
+
+    @Test
     public void updateTest () {
-        doReturn(returnedAccount).when(accountService).update(account,15);
-        assertEquals(returnedAccount, accountService.update(account, 15));
+        doReturn(returnedAccount).when(accountService).update(account);
+        assertEquals(returnedAccount, accountService.update(account));
     }
 
 }

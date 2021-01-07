@@ -17,8 +17,12 @@ public class CustomerService {
         return repository.getAll();
     }
 
-    public Customer update(Customer customer, Integer id) {
-        return repository.update(customer, id);
+    public Customer getById(int id) {
+        return repository.getById(id);
+    }
+
+    public Customer update(Customer customer) {
+        return repository.update(customer);
     }
 
     public void delete(Integer id) {

@@ -1,5 +1,5 @@
 Консольное CRUD приложение с использованием
-Hibernate, Maven и Liquibase
+Hibernate, Maven, Flyway
 
 Задача:
 Необходимо реализовать консольное CRUD 
@@ -17,13 +17,22 @@ Customer-> Set<Specialty> specialties+ Account account
 Account -> AccountStatus
 
 Требования:
-1.Придерживаться шаблона MVC (пакеты model, repository, service, controller, view)
+Все CRUD операции для каждой из сущностей
 
-2.Для миграции БД использовать https://www.liquibase.org/
+1.Придерживаться подхода MVC
 
-3.Сервисный слой приложения должен быть покрыт юнит тестами (junit + mockito).
+2.Для сборки проекта использовать Maven
 
-4.Для импорта библиотек использовать Maven
+3.Для взаимодействия с БД - Hibernate
+
+4.Для конфигурирования Hibernate - аннотации
+
+5.Инициализация БД должна быть реализована с помощью flyway
+
+6.Сервисный слой приложения должен быть покрыт юнит тестами (junit + mockito)
+
+Результатом выполнения задания должен быть репозиторий на github,
+с использованием Travis (https://travis-ci.org/) и отображением статуса сборки проекта.
 
 В MySql должны присутствовать:
 1. Пользователь student с паролем 123.
@@ -36,4 +45,4 @@ specialty_list
 accounts
 specialties 
 
-Технологии: Java, MySQL, JDBC, Maven, Liquibase, JUnit, Mockito, Hibernate
+Технологии: Java, MySQL, Maven, Flyway, JUnit, Mockito, Hibernate

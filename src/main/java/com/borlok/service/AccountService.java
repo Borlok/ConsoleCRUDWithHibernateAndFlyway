@@ -17,8 +17,12 @@ public class AccountService{
         return repository.getAll();
     }
 
-    public Account update(Account account, Integer id) {
-        return repository.update(account, id);
+    public Account getById(int id) {
+        return repository.getById(id);
+    }
+
+    public Account update(Account account) {
+        return repository.update(account);
     }
 
     public void delete(Integer id) {

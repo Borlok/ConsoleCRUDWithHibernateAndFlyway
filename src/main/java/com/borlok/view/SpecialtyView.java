@@ -76,7 +76,8 @@ public class SpecialtyView {
         System.out.println("Введите новую специальность: ");
         specialtyBuilder.createSpecialty();
         specialtyBuilder.getSpecialty().setName(sc.next());
-        specialtyController.update(specialtyBuilder.getSpecialty(), id);
+        specialtyBuilder.getSpecialty().setId(id);
+        specialtyController.update(specialtyBuilder.getSpecialty());
         main();
     }
 

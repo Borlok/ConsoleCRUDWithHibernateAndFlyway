@@ -59,8 +59,14 @@ public class CustomerServiceTests {
     }
 
     @Test
+    public void getByIdTest () {
+        doReturn(returnedCustomer).when(customerService).getById(15);
+        assertEquals(returnedCustomer, customerService.getById(15));
+    }
+
+    @Test
     public void updateTest () {
-        doReturn(returnedCustomer).when(customerService).update(customer,15);
-        assertEquals(returnedCustomer, customerService.update(customer, 15));
+        doReturn(returnedCustomer).when(customerService).update(customer);
+        assertEquals(returnedCustomer, customerService.update(customer));
     }
 }

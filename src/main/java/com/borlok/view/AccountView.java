@@ -95,7 +95,7 @@ public class AccountView {
         int id = sc.nextInt();
         Account account = createAccount();
         account.setId(id);
-        accountController.update(account, id);
+        accountController.update(account);
         main();
     }
 

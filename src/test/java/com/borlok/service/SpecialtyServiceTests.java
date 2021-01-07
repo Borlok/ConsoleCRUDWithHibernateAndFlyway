@@ -53,9 +53,15 @@ public class SpecialtyServiceTests {
     }
 
     @Test
+    public void getByIdTest () {
+        doReturn(returnedSpecialty).when(specialtyService).getById(15);
+        assertEquals(returnedSpecialty, specialtyService.getById(15));
+    }
+
+    @Test
     public void updateTest () {
-        doReturn(returnedSpecialty).when(specialtyService).update(specialty,15);
-        assertEquals(returnedSpecialty, specialtyService.update(specialty, 15));
+        doReturn(returnedSpecialty).when(specialtyService).update(specialty);
+        assertEquals(returnedSpecialty, specialtyService.update(specialty));
     }
 
 }

@@ -22,27 +22,38 @@
             </plugin>
 
             <plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>4.2.2</version>
-                <configuration>
-                    <propertyFile>src/main/resources/liquibase/liquibase.properties</propertyFile>
-                    <changeLogFile>src/main/resources/liquibase/changelog.sql</changeLogFile>
-                </configuration>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>7.4.0</version>
                 <executions>
                     <execution>
-                        <id>liquibase.update</id>
                         <phase>compile</phase>
                         <goals>
-                            <goal>update</goal>
+                            <goal>migrate</goal>
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <locations>
+                        <location>db/migration</location>
+                    </locations>
+                    <configFiles>src/main/resources/db/migration/flyway.properties</configFiles>
+                </configuration>
+
             </plugin>
         </plugins>
     </build>
 
+
     <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>7.4.0</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -73,14 +84,6 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.22</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>4.2.2</version>
-        </dependency>
-
 
         <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
         <dependency>

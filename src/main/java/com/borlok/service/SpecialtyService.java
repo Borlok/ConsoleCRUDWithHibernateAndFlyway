@@ -17,8 +17,12 @@ public class SpecialtyService {
         return repository.getAll();
     }
 
-    public Specialty update(Specialty specialty, Integer id) {
-        return repository.update(specialty, id);
+    public Specialty getById(int id) {
+        return repository.getById(id);
+    }
+
+    public Specialty update(Specialty specialty) {
+        return repository.update(specialty);
     }
 
     public void delete(Integer id) {repository.delete(id);}

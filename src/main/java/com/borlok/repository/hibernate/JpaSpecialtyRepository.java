@@ -1,5 +1,6 @@
 package com.borlok.repository.hibernate;
 
+import com.borlok.model.Customer;
 import com.borlok.model.Specialty;
 import com.borlok.repository.SpecialtyRepository;
 import org.hibernate.Session;
@@ -22,12 +23,23 @@ public class JpaSpecialtyRepository implements SpecialtyRepository {
         session.close();
         return specialty1;
     }
+
     @Override
-    public Specialty update(Specialty specialty, Integer id) {
+    public Specialty getById(Integer id) {
+        Session session = JpaUtil.getSession();
+
+        Specialty specialty = (Specialty) session.get(Specialty.class, id);
+
+        session.close();
+        return specialty;
+    }
+
+    @Override
+    public Specialty update(Specialty specialty) {
         Session session = JpaUtil.getSession();
         Transaction transaction = session.beginTransaction();
 
-        Specialty specialty1 = (Specialty) session.get(Specialty.class, id);
+        Specialty specialty1 = (Specialty) session.get(Specialty.class, specialty.getId());
 
         specialty1.setName(specialty.getName());
         session.update(specialty1);

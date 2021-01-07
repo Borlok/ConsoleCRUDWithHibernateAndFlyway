@@ -29,17 +29,27 @@ public class JpaAccountRepository implements AccountRepository {
     }
 
     @Override
-    public Account update(Account account, Integer id) {
+    public Account getById(Integer id) {
+        Session session = JpaUtil.getSession();
+
+        Account account = (Account) session.get(Account.class, id);
+
+        session.close();
+        return account;
+    }
+
+    @Override
+    public Account update(Account account) {
         Session session = JpaUtil.getSession();
         Transaction transaction = session.beginTransaction();
 
-        Account account1 = (Account) session.get(Account.class, id);
+        Account account1 = (Account) session.get(Account.class, account.getId());
 
         account1.setName(account.getName());
         account1.setStatus(account.getStatus());
         session.update(account1);
 
-        account = (Account) session.get(Account.class, id);
+        account = (Account) session.get(Account.class, account.getId());
         transaction.commit();
         session.close();
         return account;

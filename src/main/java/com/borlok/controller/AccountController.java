@@ -16,8 +16,12 @@ public class AccountController{
         return accountService.getAll();
     }
 
-    public Account update(Account account, Integer id) {
-        return accountService.update(account, id);
+    public Account getById(int id) {
+        return accountService.getById(id);
+    }
+
+    public Account update(Account account) {
+        return accountService.update(account);
     }
 
     public void delete(Integer id) {

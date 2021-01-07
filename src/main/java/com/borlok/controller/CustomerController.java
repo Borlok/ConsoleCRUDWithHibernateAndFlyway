@@ -16,8 +16,12 @@ public class CustomerController {
         return customerService.getAll();
     }
 
-    public Customer update(Customer customer, Integer id) {
-        return customerService.update(customer, id);
+    public Customer getById(int id) {
+        return customerService.getById(id);
+    }
+
+    public Customer update(Customer customer) {
+        return customerService.update(customer);
     }
 
     public void delete(Integer id) {

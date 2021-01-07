@@ -16,8 +16,12 @@ public class SpecialtyController {
         return specialtyService.getAll();
     }
 
-    public Specialty update(Specialty specialty, Integer id) {
-        return specialtyService.update(specialty, id);
+    public Specialty getById(int id) {
+        return specialtyService.getById(id);
+    }
+
+    public Specialty update(Specialty specialty) {
+        return specialtyService.update(specialty);
     }
 
     public void delete(Integer id) {

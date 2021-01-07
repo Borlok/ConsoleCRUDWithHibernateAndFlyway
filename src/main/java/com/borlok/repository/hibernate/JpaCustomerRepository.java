@@ -24,11 +24,21 @@ public class JpaCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer update(Customer customer, Integer id) {
+    public Customer getById(Integer id) {
+        Session session = JpaUtil.getSession();
+
+        Customer customer = (Customer) session.get(Customer.class, id);
+
+        session.close();
+        return customer;
+    }
+
+    @Override
+    public Customer update(Customer customer) {
         Session session = JpaUtil.getSession();
         Transaction transaction = session.beginTransaction();
 
-        Customer customer1 = (Customer) session.get(Customer.class, id);
+        Customer customer1 = (Customer) session.get(Customer.class, customer.getId());
         Account account = customer1.getAccount();
 
         account.setName(customer.getAccount().getName());
@@ -38,7 +48,7 @@ public class JpaCustomerRepository implements CustomerRepository {
 
         session.update(customer1);
 
-        customer = (Customer) session.get(Customer.class, id);
+        customer = (Customer) session.get(Customer.class, customer.getId());
 
         transaction.commit();
         session.close();

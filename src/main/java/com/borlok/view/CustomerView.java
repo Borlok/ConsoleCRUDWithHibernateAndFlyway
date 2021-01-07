@@ -128,7 +128,7 @@ public class CustomerView {
 
         Customer customer = createCustomer();
         customer.setId(id);
-        customerController.update(customer, id);
+        customerController.update(customer);
         main();
     }
 
