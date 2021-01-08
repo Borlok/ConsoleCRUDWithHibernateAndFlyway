@@ -1,5 +1,10 @@
 language: java
+sudo: required
 services:
   - mysql
-script:
-  - mvn compile
+before_script:
+  - mysql -u root -p
+  - create database practice;
+  - create user 'student'@'%' IDENTIFIED BY '123';
+  - GRANT ALL ON *.* TO 'student'@'%';
+  - exit;
