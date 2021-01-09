@@ -4,3 +4,5 @@ services:
   - mysql
 before_install:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS practice;'
+  - mysql -e "create user if not exists 'student'@'localhost' identified by '123';"
+  - mysql -e "GRANT ALL ON *.* TO 'student'@'localhost';"
