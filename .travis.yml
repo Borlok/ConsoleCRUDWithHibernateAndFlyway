@@ -1,8 +1,6 @@
 language: java
 sudo: required
 services:
-  - postgresql
-before_script:
-  - psql -c "CREATE DATABASE practice;" -U postgres
-  - psql -c "CREATE USER student WITH PASSWORD '123';" -U postgres
-  - psql -c 'CREATE SCHEMA "practice" AUTHORIZATION student;' -U postgres -d student
+  - mysql
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS practice;'
