@@ -1,5 +1,5 @@
 Консольное CRUD приложение с использованием
-Hibernate, Maven, Flyway
+Hibernate, Maven, Flyway [![Build Status](https://travis-ci.com/Borlok/ConsoleCRUDWithHibernateAndFlyway.svg?branch=master)](https://travis-ci.com/Borlok/ConsoleCRUDWithHibernateAndFlyway)
 
 Задача:
 Необходимо реализовать консольное CRUD 
